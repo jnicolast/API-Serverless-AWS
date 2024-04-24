@@ -1,0 +1,75 @@
+service: aws-swapi-node
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-1:339713029181:table/UserTable
+
+functions:
+  swapiPeople:
+    handler: src/functions/apiSWAPI.getPeople
+    events:
+      - httpApi:
+          path: /people
+          method: get
+  swapiPerson:
+    handler: src/functions/apiSWAPI.getPerson
+    events:
+      - httpApi:
+          path: /people/{id}
+          method: get
+  createUser:
+    handler: src/functions/apiUser.addUser
+    events:
+      - httpApi:
+          path: /user
+          method: post
+  getUsers:
+    handler: src/functions/apiUser.getUsers
+    events:
+      - httpApi:
+          path: /user
+          method: get
+  getUser:
+    handler: src/functions/apiUser.getUser
+    events:
+      - httpApi:
+          path: /user/{userID}
+          method: get
+  updateUser:
+    handler: src/functions/apiUser.updateUser
+    events:
+      - httpApi:
+          path: /user/{userID}
+          method: put
+  deleteUser:
+    handler: src/functions/apiUser.deleteUser
+    events:
+      - httpApi:
+          path: /user/{userID}
+          method: delete
+resources:
+  Resources:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserTable
+        AttributeDefinitions:
+          - AttributeName: userID
+            AttributeType: S          
+        KeySchema:
+          - AttributeName: userID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+plugins:
+  - serverless-plugin-typescript
+        

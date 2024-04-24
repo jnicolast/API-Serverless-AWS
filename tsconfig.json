@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "preserveConstEnums": true,
+        "strictNullChecks": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "target": "es5",
+        "outDir": ".build",
+        "moduleResolution": "node",
+        "lib": [
+            "es5",
+            "es2015.promise"
+        ],
+        "rootDir": "./",
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
